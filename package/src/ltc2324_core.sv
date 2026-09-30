@@ -155,7 +155,7 @@ always_ff @(posedge clk or negedge rst_n) begin : SDO_Shift_Register
         ch3 <= 16'd0;
         ch4 <= 16'd0;
     end else begin
-        if (state == DSCKHCNVH && tdsckhcnvh_clk_cnt == 1) begin
+        if (state == DSCKHCNVH && tdsckhcnvh_clk_cnt == 2) begin
             ch1 <= shift_ch1;
             ch2 <= shift_ch2;
             ch3 <= shift_ch3;
