@@ -35,6 +35,8 @@ module axis_fifo #(
                   (wr_ptr[ADDR_WIDTH-1:0] == rd_ptr[ADDR_WIDTH-1:0]);
     assign empty = (wr_ptr == rd_ptr);
     assign valid = !empty;
+    // FWFT: valid and rd_data refer to the same head word before the read edge.
+    assign rd_data = empty ? '0 : mem[rd_ptr[ADDR_WIDTH-1:0]];
     
     // Write logic
     always_ff @(posedge clk or negedge rst_n) begin
@@ -51,12 +53,10 @@ module axis_fifo #(
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             rd_ptr <= 0;
-            rd_data <= 0;
         end else begin
             if (rd_en && !empty) begin
                 rd_ptr <= rd_ptr + 1;
             end
-            rd_data <= mem[rd_ptr[ADDR_WIDTH-1:0]];
         end
     end
 
